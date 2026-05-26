@@ -1,4 +1,16 @@
 name: Orchestration
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # ✅ Allows manual trigger from UI
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Test step
+        run: echo "Workflow is running!"
+``
