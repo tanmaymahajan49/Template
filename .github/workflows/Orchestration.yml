@@ -4,12 +4,34 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-job:
+
+  discover:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - run: echo "Discovering GitLab repositories..."
 
-      - name: Test step
-        run: echo "Workflow is running!"
+  migrate:
+    needs: discover
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Migrating repositories to GitHub..."
+
+  convert-ci:
+    needs: migrate
+    uses: ./.github/workflows/gitlab-ci-converter.yml
+
+  package-migration:
+    needs: convert-ci
+    uses: ./.github/workflows/package-Image-migration.yml
+
+  metadata:
+    needs: package-migration
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Migrating issues, labels, milestones..."
+
+  done:
+    needs: metadata
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Migration completed ✅"
