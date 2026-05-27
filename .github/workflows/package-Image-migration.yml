@@ -1,1 +1,13 @@
+name: Package Image Migration
 
+on:
+  workflow_call:
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Migrate packages and images
+        run: echo "Migrating Docker images and npm packages..."
+``
