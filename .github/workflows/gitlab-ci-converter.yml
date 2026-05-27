@@ -1,1 +1,11 @@
 
+name: GitLab CI Converter
+
+on:
+  workflow_call:
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Converting GitLab CI to GitHub Actions..."
