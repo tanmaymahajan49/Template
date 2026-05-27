@@ -1,7 +1,7 @@
 name: Orchestration
 
 on:
-  workflow_dispatch:   # ✅ Allows manual trigger from UI
+  workflow_dispatch:
 
 jobs:
   test-job:
@@ -13,4 +13,3 @@ jobs:
 
       - name: Test step
         run: echo "Workflow is running!"
-``
