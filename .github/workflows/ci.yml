@@ -1,0 +1,44 @@
+name: Hello CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  # ✅ MAIN JOB (HELLO WORLD)
+  build:
+    runs-on: ubuntu-latest
+
+    outputs:
+      result: ${{ job.status }}
+
+    steps:
+      - name: Print Hello World
+        run: echo "Hello World"
+
+      # 👉 Try failure manually by uncommenting below
+      # - name: Force Fail
+      #   run: exit 1
+
+
+  # ✅ SUCCESS PIPELINE
+  success-job:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ needs.build.result == 'success' }}
+
+    steps:
+      - name: Success Message
+        run: echo "✅ SUCCESS PIPELINE EXECUTED"
+
+
+  # ❌ FAILURE PIPELINE
+  failure-job:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ needs.build.result == 'failure' }}
+
+    steps:
+      - name: Failure Message
+        run: echo "❌ FAILURE PIPELINE EXECUTED"
