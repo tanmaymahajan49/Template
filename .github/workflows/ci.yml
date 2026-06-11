@@ -19,7 +19,7 @@ jobs:
 
       # 👉 Try failure manually by uncommenting below
       # - name: Force Fail
-        run: exit 1
+      # - run: exit 1
 
 
   # ✅ SUCCESS PIPELINE
