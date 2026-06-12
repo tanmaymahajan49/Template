@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  # ✅ MAIN JOB (HELLO WORLD)
+  # ✅ MAIN JOB
   build:
     runs-on: ubuntu-latest
 
@@ -17,9 +17,9 @@ jobs:
       - name: Print Hello World
         run: echo "Hello World"
 
-      # 👉 Try failure manually by uncommenting below
-      # - name: Force Fail
-      # - run: exit 1
+      # ✅ FORCE FAILURE (KEEP THIS FOR TEST)
+      - name: Force Fail
+        run: exit 1
 
 
   # ✅ SUCCESS PIPELINE
