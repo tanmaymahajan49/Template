@@ -17,9 +17,8 @@ jobs:
       - name: Print Hello World
         run: echo "Hello World"
 
-      # ✅ FORCE FAILURE (KEEP THIS FOR TEST)
-      - name: Force Fail
-        run: exit 1
+      
+      
 
 
   # ✅ SUCCESS PIPELINE
