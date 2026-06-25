@@ -1,0 +1,50 @@
+name: CI Pipeline - Certificate Automation
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-cert:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    # ✅ Checkout code
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # ✅ Setup Java
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    # ✅ Build project
+    - name: Build JAR
+      run: mvn clean package
+
+    # ✅ Generate certificate
+    - name: Generate Certificate
+      run: |
+        openssl req -x509 -newkey rsa:2048 \
+        -keyout private.key \
+        -out cert.cer \
+        -days 365 -nodes \
+        -subj "/C=IN/ST=Maharashtra/L=Pune/O=Demo/OU=IT/CN=localhost"
+
+    # ✅ Install certificate (Agent simulation)
+    - name: Install Certificate
+      run: |
+        keytool -importcert \
+        -file cert.cer \
+        -alias mycert \
+        -keystore mykeystore.jks \
+        -storepass changeit \
+        -noprompt
+
+    # ✅ Verify
+    - name: Verify Certificate
+      run: |
+        keytool -list -keystore mykeystore.jks -storepass changeit
