@@ -1,4 +1,4 @@
-name: CI Pipeline - Certificate Automation
+name: Certificate CI Pipeline
 
 on:
   push:
@@ -10,22 +10,23 @@ jobs:
 
     steps:
 
-    # ✅ Checkout code
-    - name: Checkout
+    # ✅ Step 1: Checkout code
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    # ✅ Setup Java
+    # ✅ Step 2: Setup Java
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
 
-    # ✅ Build project
+    # ✅ Step 3: Build Spring Boot project
     - name: Build JAR
       run: mvn clean package
+      working-directory: automation   # ✅ IMPORTANT (your project folder)
 
-    # ✅ Generate certificate
+    # ✅ Step 4: Generate Certificate (.cer)
     - name: Generate Certificate
       run: |
         openssl req -x509 -newkey rsa:2048 \
@@ -34,7 +35,7 @@ jobs:
         -days 365 -nodes \
         -subj "/C=IN/ST=Maharashtra/L=Pune/O=Demo/OU=IT/CN=localhost"
 
-    # ✅ Install certificate (Agent simulation)
+    # ✅ Step 5: Install Certificate (Agent simulation)
     - name: Install Certificate
       run: |
         keytool -importcert \
@@ -44,7 +45,7 @@ jobs:
         -storepass changeit \
         -noprompt
 
-    # ✅ Verify
+    # ✅ Step 6: Verify Certificate
     - name: Verify Certificate
       run: |
         keytool -list -keystore mykeystore.jks -storepass changeit
